@@ -19,7 +19,6 @@ class InvoiceFactory extends Factory
     {
         $status = $this->faker->randomElement(['B', 'P', 'V']);
 
-
         return [
             'customer_id' => Customer::factory(),
             'amount' => $this->faker->numberBetween(100, 20000),
