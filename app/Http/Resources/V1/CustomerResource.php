@@ -24,7 +24,7 @@ class CustomerResource extends JsonResource
             'city' => $this->city,
             'state' => $this->state,
             'postalCode' => $this->postal_code,
-            // inlude invoices if available in query string
+            // include invoices if available in query string
             'invoices' => InvoiceResource::collection($this->whenLoaded('invoices'))
         ];
     }
