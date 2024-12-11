@@ -5,22 +5,22 @@ namespace App\Filters\V1;
 use App\Filters\ApiFilter;
 use Illuminate\Http\Request;
 
-class CustomersFilter extends ApiFilter {
+class InvoicesFilter extends ApiFilter {
     // NEVER TRUST USER INPUT😀. 
     // List ONLY the allowed fields and operators, ie greater than, equal tp...
     // we can filter data with
     protected $safeParams = [
-        'name' => ['eq'],
-        'type' => ['eq'],
-        'email' => ['eq'],
-        'address' => ['eq'],
-        'city' => ['eq'],
-        'state' => ['eq'],
-        'postalCode' => ['eq', 'gt', 'lt']
+        'customerId' => ['eq'],
+        'amount' => ['eq', 'lt', 'gt', 'lte', 'gte'],
+        'status' => ['eq', 'ne'],
+        'billedDate' => ['eq', 'lt', 'gt', 'lte', 'gte'],
+        'paidDate' => ['eq', 'lt', 'gt', 'lte', 'gte'],
     ];
 
     protected $columnMap = [
-        "postalCode" => "postal_code"
+        "customerId" => "customer_id",
+        "billedDate" => "billed_date",
+        "paidDate" => "paid_date",
     ];
 
     protected $operatorMap = [
@@ -29,31 +29,9 @@ class CustomersFilter extends ApiFilter {
         'lte' => "<=",
         'gt' => ">",
         'gte' => ">=",
+        'ne' => '!='
     ];
 
-    public function transform(Request $request) {
-        $eloQuery = [];
-
-        foreach ($this->safeParams as $parm => $operators) {
-            $query = $request->query($parm);
-
-            if (!isset($query)) {
-                continue;
-            }
-
-            $column = $this->columnMap[$parm] ?? $parm;
-
-            // filter the operators per query
-            foreach($operators as $operator) {
-                if(isset($query[$operator])) {
-                    // format => [['column', 'operator', 'value']]
-                    $eloQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
-                }
-            }
-        }
-
-        return $eloQuery;
-    }
 }
 
 ?>
