@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\V1;
+namespace App\Filters\V1;
 
+use App\Filters\ApiFilter;
 use Illuminate\Http\Request;
 
-class CustomerQuery {
+class CustomersFilter extends ApiFilter {
     // NEVER TRUST USER INPUT😀. 
     // List ONLY the allowed fields and operators, ie greater than, equal tp...
     // we can filter data with

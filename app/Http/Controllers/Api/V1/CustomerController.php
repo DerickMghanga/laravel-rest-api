@@ -8,7 +8,7 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Resources\V1\CustomerResource;
 use App\Http\Resources\V1\CustomerCollection;
-use App\Services\V1\CustomerQuery;
+use App\Filters\V1\CustomersFilter;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -18,7 +18,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = new CustomerQuery(); // we use it to filter and transform the request query
+        $filter = new CustomersFilter(); // we use it to filter and transform the request query
         
         $queryItems = $filter->transform($request); // format => [['column', 'operator', 'value']]
 
@@ -50,7 +50,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return new CustomerResource($customer); // returns modified a JSON response
+        return new CustomerResource($customer); // returns a modified JSON response
     }
 
     /**
