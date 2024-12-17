@@ -13,7 +13,10 @@ class BulkStoreInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // default is always 'false'. since a user MUST be authorized to add a resource
+        $user = $this->user();
+
+        return $user !=null && $user->tokenCan('create');
+        // return true; // default is always 'false'. since a user MUST be authorized to add a resource
     }
 
     /**
